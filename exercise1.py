@@ -39,6 +39,12 @@ class UnknownAttributeException(Exception):
     pass
 
 
+EMPLOYEES = [["Surname", "FirstName", "Age", "Salary"],
+            ["Smith", "Mary", 25, 2000],
+            ["Black", "Lucy", 40, 3000],
+            ["Verdi", "Nico", 36, 4500],
+            ["Smith", "Mark", 40, 3900]]
+
 def selection(t, f):
     """
     Perform select operation on table t that satisfy condition f.
@@ -53,7 +59,15 @@ def selection(t, f):
 
     """
 
-    return []
+    result = []
+    result.append(t[0])
+    for row in t[1:]:
+        if f(row):
+            result.append(row)
+    if len(result) <= 1:
+        return None
+    else:
+        return remove_duplicates(result)
 
 
 def projection(t, r):
