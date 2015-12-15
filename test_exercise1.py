@@ -33,6 +33,20 @@ R2 = [["Department", "Head"],
       ["production", "Mori"],
       ["sales", "Brown"]]
 
+STUDENTS = [["FirstName", "Surname", "Age"],
+            ["Yueyue", "Yang", 25],
+            ["Yuchen", "Jia", 23],
+            ["Xike", "Wang", 25],
+            ["Ming", "Fu", 31],
+            ["Black", "Whiten", 66]]
+
+TEACHER = [["FirstName", "Surname", "Age"],
+           ["Susan", "Sim", 40],
+           ["Eric", "Yu", 60]]
+
+COURSES = [["Course"],
+           ["Inf1340"],
+           ["Inf1341"]]
 
 #####################
 # HELPER FUNCTIONS ##
@@ -60,9 +74,13 @@ def filter_employees(row):
     return row[-2] >= 30 and row[-1] > 3500
 
 
+def filter_students(row):
+    return row[-1] <= 35
+
 ###################
 # TEST FUNCTIONS ##
 ###################
+
 
 def test_selection():
     """
@@ -104,3 +122,39 @@ def test_cross_product():
               ["White", "production", "sales", "Brown"]]
 
     assert is_equal(result, cross_product(R1, R2))
+
+
+def test_selection_student():
+    # Test selection
+    result = [["FirstName", "Surname", "Age"],
+              ["Yueyue", "Yang", 25],
+              ["Yuchen", "Jia", 23],
+              ["Xike", "Wang", 25],
+              ["Ming", "Fu", 31]]
+
+    assert is_equal(result, selection(STUDENTS, filter_students))
+
+
+def test_projection_student():
+    # Test projection
+    result = [["Surname", "Age"],
+              ["Yang", 25],
+              ["Jia", 23],
+              ["Wang", 25],
+              ["Fu", 31],
+              ["Whiten", 66]]
+
+    assert is_equal(result, projection(STUDENTS, ["Surname", "Age"]))
+
+
+def test_cross_product_student():
+    # Test cross product
+    result = [["FirstName", "Surname", "Age", "Course"],
+              ["Susan", "Sim", 40, "Inf1340"],
+              ["Susan", "Sim", 40, "Inf1341"],
+              ["Eric", "Yu", 60, "Inf1340"],
+              ["Eric", "Yu", 60, "Inf1341"]]
+
+    assert is_equal(result, cross_product(TEACHER, COURSES))
+
+
