@@ -158,3 +158,35 @@ def test_cross_product_student():
     assert is_equal(result, cross_product(TEACHER, COURSES))
 
 
+def test_selection_returns_nothing():
+    # Test if selection is none
+    t = [["Name", "Age"],
+         ["Bob", 47],
+         ["Mary", 65],
+         ["Carla", 54]]
+
+    def f(r):
+        return r[-1] < 35
+
+    assert selection(t, f) is None
+
+
+def test_projection_returns_error():
+    # Test if projection has error
+    try:
+        projection(STUDENTS, ["Age", "Surname"])
+    except AttributeError:
+        assert True
+
+
+def test_cross_product_returns_nothing():
+    # Test if cross product is none
+    t1 = [["Teacher", "Age"],
+         ["Susan", 47],
+         ["Eric", 65]]
+    t2 = [["Teacher", "Age"]]
+
+    assert cross_product(t1, t2) is None
+
+
+
