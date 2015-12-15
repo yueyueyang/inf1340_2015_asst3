@@ -40,10 +40,11 @@ class UnknownAttributeException(Exception):
 
 
 EMPLOYEES = [["Surname", "FirstName", "Age", "Salary"],
-            ["Smith", "Mary", 25, 2000],
-            ["Black", "Lucy", 40, 3000],
-            ["Verdi", "Nico", 36, 4500],
-            ["Smith", "Mark", 40, 3900]]
+             ["Smith", "Mary", 25, 2000],
+             ["Black", "Lucy", 40, 3000],
+             ["Verdi", "Nico", 36, 4500],
+             ["Smith", "Mark", 40, 3900]]
+
 
 def selection(t, f):
     """
