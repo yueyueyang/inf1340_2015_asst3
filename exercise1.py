@@ -5,9 +5,9 @@
 This module performs table operations on database tables
 implemented as lists of lists. """
 
-__author__ = 'Susan Sim'
-__email__ = "ses@drsusansim.org"
-__copyright__ = "2015 Susan Sim"
+__author__ = 'Yue Yang & Yuchen Jia'
+__email__ = "yueyue.yang@mail.utoronto.ca"
+__copyright__ = "2015 Yue Yang & Yuchen Jia"
 __license__ = "MIT License"
 
 
@@ -20,13 +20,15 @@ def remove_duplicates(l):
     Removes duplicates from l, where l is a List of Lists.
     :param l: a List
     """
-
-    d = {}
+    # create empty dictionary to store data
+    data = {}
+    # create a empty list to store keys
     result = []
-    for row in l:
-        if tuple(row) not in d:
-            result.append(row)
-            d[tuple(row)] = True
+    # use for loop to store data and remove duplicates
+    for i in l:
+        if tuple(i) not in data:
+            result.append(i)
+            data[tuple(i)] = True
 
     return result
 
@@ -38,7 +40,7 @@ class UnknownAttributeException(Exception):
     """
     pass
 
-
+# create an exception list
 EMPLOYEES = [["Surname", "FirstName", "Age", "Salary"],
              ["Smith", "Mary", 25, 2000],
              ["Black", "Lucy", 40, 3000],
@@ -59,12 +61,13 @@ def selection(t, f):
     [["A", "B", "C"], [4, 5, 6]]
 
     """
-
+    # create a header
     result = []
     result.append(t[0])
-    for row in t[1:]:
-        if f(row):
-            result.append(row)
+    # append employee information
+    for i in t[1:]:
+        if f(i):
+            result.append(i)
     if len(result) <= 1:
         return None
     else:
@@ -82,18 +85,21 @@ def projection(t, r):
     [["A", "C"], [1, 3], [4, 6]]
 
     """
+    # create empty list to store data
     result = []
     index = []
+    # test if there is an unknown attribute, then append attributes
     for attribute in r:
         if attribute not in t[0]:
             raise UnknownAttributeException("Unknown Attribute")
         else:
             index.append(t[0].index(attribute))
+    # project employee information
     for row in t:
-        temp_row = []
+        temp = []
         for i in index:
-            temp_row.append(row[i])
-        result.append(temp_row)
+            temp.append(row[i])
+        result.append(temp)
     return result
 
 #print projection(EMPLOYEES, ["Surname", "FirstName"])
@@ -110,12 +116,14 @@ def cross_product(t1, t2):
 
 
     """
-
+    # cross head
     result = []
     result.append(t1[0] + t2[0])
-    for row1 in t1[1:]:
-        for row2 in t2[1:]:
-            result.append(row1+ row2)
+    # cross product employee information
+    for i in t1[1:]:
+        for j in t2[1:]:
+            result.append(i+ j)
+    # if there is no result, return none; otherwise return the result
     if len(result) <= 1:
         return None
     else:
