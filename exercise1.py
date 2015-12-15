@@ -81,8 +81,21 @@ def projection(t, r):
     [["A", "C"], [1, 3], [4, 6]]
 
     """
+    result = []
+    index = []
+    for attribute in r:
+        if attribute not in t[0]:
+            raise UnknownAttributeException("Unknown Attribute")
+        else:
+            index.append(t[0].index(attribute))
+    for row in t:
+        temp_row = []
+        for i in index:
+            temp_row.append(row[i])
+        result.append(temp_row)
+    return result
 
-    return []
+#print projection(EMPLOYEES, ["Surname", "FirstName"])
 
 
 def cross_product(t1, t2):
@@ -97,5 +110,13 @@ def cross_product(t1, t2):
 
     """
 
-    return []
+    result = []
+    result.append(t1[0] + t2[0])
+    for row1 in t1[1:]:
+        for row2 in t2[1:]:
+            result.append(row1+ row2)
+    if len(result) <= 1:
+        return None
+    else:
+        return result
 
