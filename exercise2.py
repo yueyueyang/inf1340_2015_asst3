@@ -65,8 +65,70 @@ def decide(input_file, countries_file):
     :return: List of strings. Possible values of strings are:
         "Accept", "Reject", and "Quarantine"
     """
+    
+    entries_file = open(input_file)
+    entries_string = entries_file.read()
+    entries_data = json.loads(entries_string)
+    entries_file.close()
 
-    return ["Reject"]
+    file_of_countries = open(countries_file)
+    countries_string = file_of_countries.read()
+    global COUNTRIES
+    COUNTRIES = json.loads(countries_string)
+    file_of_countries.close()
+    # create a decision list
+    final_decision_list = []
+    # check if the entry is in the dictionary
+    for entry in entries_data:
+        decision_list = []
+        # check if the required fields are included
+        if not check_required_fields(entry):
+            decision_list.append("Reject")
+        # check passport format
+        if not valid_passport_format(entry['passport']):
+            decision_list.append("Reject")
+        # check birthday format
+        if not valid_date_format(entry['birth_date']):
+            decision_list.append("Reject")
+        # check if the country is in the list
+        if not known_location(entry['from']) or not known_location(entry['home']):
+            decision_list.append("Reject")
+        # check if there is a via in the entry
+        if "via" in entry:
+            if not known_location(entry["via"]):
+                decision_list.append("Reject")
+            if known_location(entry["via"]):
+                decision_list.append("Quarantine")
+        # check if the contry is Kanada
+        if check_home(entry["home"]):
+            decision_list.append("Accept")
+        # check if it has medical advisory
+        if check_quarantine(entry["from"]):
+            decision_list.append("Quarantine")
+        # check if the person needs visa
+        if check_visa_requirement(entry["from"],entry["entry_reason"]):
+            if "visa" not in entry:
+                decision_list.append("Reject")
+            else:
+                # reject if the visa is not valid
+                if not valid_date_format(entry["visa"]["date"]):
+                    decision_list.append("Reject")
+                else:
+                    # check the visa date
+                    if is_more_than_x_years_ago(2,entry["visa"]["date"]):
+                        decision_list.append("Reject")
+                    # check code format
+                    if not valid_visa_format(entry["visa"]["code"]):
+                        decision_list.append("Reject")
+        # accept if all passed
+        decision_list.append("Accept")
+        # make the final decision
+        final_decision = conflict_decision_resolver(decision_list)
+        # add dicesion to the list
+        final_decision_list.append(final_decision)
+
+
+    return final_decision_list
 
 
 def valid_passport_format(passport_number):
