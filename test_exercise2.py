@@ -39,10 +39,6 @@ def test_basic():
 
 def test_empty():
 
-    assert decide("test_empty_fname.json", "countries.json") == ["Accept"]
-
-    assert decide("test_empty_lname.json", "countries.json") == ["Accept"]
-
     assert decide("test_emptycountry.json", "countries.json") == ["Reject"]
 
     assert decide("test_nopassport.json", "countries.json") == ["Reject"]
